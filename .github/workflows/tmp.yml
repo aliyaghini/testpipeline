@@ -1,0 +1,40 @@
+name: Build and Push Docker Image  
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: calculate version
+        id: calculate-version
+        uses: bitshifted/git-auto-semver@v1
+      - name: Use version
+        run: echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"
+
+jobs:  
+  build:  
+    runs-on: ubuntu-latest  
+
+    steps:  
+      - name: Checkout code  
+        uses: actions/checkout@v2  
+
+      - name: Log in to Docker Hub  
+        uses: docker/login-action@v2  
+        with:  
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASS }} 
+
+      - name: Build the Docker image  
+        #  working-directory: phase07/tracegouteAPI
+        run: |
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}  
+          docker build -t yaghooli/mygoapp:$IMAGE_TAG .
+
+      - name: Push the Docker image  
+        run: |
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}  
+          docker push yaghooli/mygoapp:$IMAGE_TAG
