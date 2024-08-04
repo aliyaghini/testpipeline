@@ -53,5 +53,5 @@ jobs:
 
           docker build -t yaghooli/mygoapp:${{ env.new_version }} .
           docker push yaghooli/mygoapp:${{ env.new_version }}
-          docker tag yaghooli/mygoapp:${{ env.new_version }} your-docker-repo/your-image-name:latest
-          docker push yaghooli/mygoapp:latest  
+          # docker tag yaghooli/mygoapp:${{ env.new_version }} your-docker-repo/your-image-name:latest
+          #docker push yaghooli/mygoapp:latest  
