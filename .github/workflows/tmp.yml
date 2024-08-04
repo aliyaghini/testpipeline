@@ -14,7 +14,6 @@ jobs:
       - name: Use version
         run: echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"
 
-jobs:  
   build:  
     runs-on: ubuntu-latest  
 
