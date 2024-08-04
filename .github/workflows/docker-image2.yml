@@ -2,8 +2,17 @@ name: Build and Push Docker Image
 
 on:
   push:
-    tags:  
-      - 'v*.*.*'
+    branches: [main]
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: calculate version
+        id: calculate-version
+        uses: bitshifted/git-auto-semver@v1
+      - name: Use version
+        run: echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"
 
 jobs:  
   build:  
