@@ -27,7 +27,7 @@ jobs:
           echo "new_version=$new_version" >> $GITHUB_ENV  
           git tag "$new_version"  
           git push origin "$new_version"  
-jobs:  
+
   build:  
     runs-on: ubuntu-latest  
 
