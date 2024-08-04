@@ -28,10 +28,10 @@ jobs:
           git tag "$new_version"  
           git push origin "$new_version"  
 
-  build:  
-    runs-on: ubuntu-latest  
+          #  build:  
+          #  runs-on: ubuntu-latest  
 
-    steps:  
+          # steps:  
       - name: Checkout code  
         uses: actions/checkout@v2  
 
@@ -45,13 +45,13 @@ jobs:
         
         #  working-directory: phase07/tracegouteAPI
         run: |
-          IMAGE_TAG=${GITHUB_REF#refs/tags/}  
-          docker build -t yaghooli/mygoapp:$IMAGE_TAG .
+          #IMAGE_TAG=${GITHUB_REF#refs/tags/}  
+          #docker build -t yaghooli/mygoapp:$IMAGE_TAG .
 
-          IMAGE_TAG=${GITHUB_REF#refs/tags/}  
-          docker push yaghooli/mygoapp:$IMAGE_TAG
+          #IMAGE_TAG=${GITHUB_REF#refs/tags/}  
+          #docker push yaghooli/mygoapp:$IMAGE_TAG
 
-          #docker build -t yaghooli/mygoapp:${{ env.new_version }} .
-          # docker push yaghooli/mygoapp:${{ env.new_version }}
-          # docker tag yaghooli/mygoapp:${{ env.new_version }} your-docker-repo/your-image-name:latest
-          #docker push yaghooli/mygoapp:latest  
+          docker build -t yaghooli/mygoapp:${{ env.new_version }} .
+          docker push yaghooli/mygoapp:${{ env.new_version }}
+          docker tag yaghooli/mygoapp:${{ env.new_version }} your-docker-repo/your-image-name:latest
+          docker push yaghooli/mygoapp:latest  
