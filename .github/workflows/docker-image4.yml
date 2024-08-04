@@ -1,0 +1,49 @@
+# example 1: on push to master
+name: Bump version
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: '0'
+
+    - name: Bump version and push tag
+      id: tagstep
+      uses: anothrNick/github-tag-action@v1 # Don't use @master or @v1 unless you're happy to test the latest version
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+        WITH_V: false
+
+
+    - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+
+      - name: Build the Docker image
+
+        #  working-directory: phase07/tracegouteAPI
+        run: |
+          #IMAGE_TAG=${GITHUB_REF#refs/tags/}
+          #docker build -t yaghooli/mygoapp:$IMAGE_TAG .
+
+          #IMAGE_TAG=${GITHUB_REF#refs/tags/}
+          #docker push yaghooli/mygoapp:$IMAGE_TAG
+
+          docker build -t yaghooli/mygoapp:${{ steps.tagstep.outputs.tag }} .
+          docker push yaghooli/mygoapp:${{ steps.tagstep.outputs.tag }}
+          # docker tag yaghooli/mygoapp:${{ env.new_version }} your-docker-repo/your-image-name:latest
+          #docker push yaghooli/mygoapp:latest
+
